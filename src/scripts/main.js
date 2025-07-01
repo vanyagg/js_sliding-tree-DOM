@@ -7,11 +7,13 @@ for (const list of ul) {
   const nodes = [...li.childNodes];
 
   for (const node of nodes) {
-    const span = document.createElement('span');
-    span.textContent = node.textContent.trim();
+    if (node.nodeType === 3 && node.textContent.trim() !== '') {
+      const span = document.createElement('span');
+      span.textContent = node.textContent.trim();
 
-    li.replaceChild(span, node);
-    break;
+      li.replaceChild(span, node);
+      break;
+    }
   }
 }
 
@@ -20,6 +22,8 @@ const headers = [...document.querySelectorAll('span')];
 for (const header of headers) {
   header.addEventListener('click', () => {
     const ulElement = header.nextElementSibling;
+
+    if (!ulElement) return;
 
     if (ulElement.style.display === 'none') {
       ulElement.style.display = '';
